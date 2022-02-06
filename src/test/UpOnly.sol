@@ -38,6 +38,7 @@ contract OwnerUpOnlyTest is DSTest {
   }
 
   function testFailIncrementAsNotOwner() public {
+    // prank cheatcode changed our identity to the zero address for the next call
     cheats.prank(address(0));
     upOnly.increment();
   }
