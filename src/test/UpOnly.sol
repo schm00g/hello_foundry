@@ -21,6 +21,7 @@ import "ds-test/test.sol";
 
 interface CheatCodes {
   function prank(address) external;
+  function expectRevert(bytes calldata) external;
 }
 
 contract OwnerUpOnlyTest is DSTest {
@@ -39,6 +40,12 @@ contract OwnerUpOnlyTest is DSTest {
 
   function testFailIncrementAsNotOwner() public {
     // prank cheatcode changed our identity to the zero address for the next call
+    cheats.prank(address(0));
+    upOnly.increment();
+  }
+
+  function testIncrementAsNotOwner() public {
+    cheats.expectRevert(bytes("only the owner can increment the account"));
     cheats.prank(address(0));
     upOnly.increment();
   }
